@@ -5,12 +5,9 @@ import { useForm } from "react-hook-form";
 import { CheckCircle, WhatsappLogo } from "@phosphor-icons/react";
 
 import { RESTAURANT } from "@/lib/constants";
+import { DARK, CREAM, GOLD, TEXT } from "@/lib/theme";
 
 const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_ID ?? "";
-
-const DARK  = "#1A1008";
-const CREAM = "#F5EDD8";
-const GOLD  = "#C9A84C";
 
 type FormData = {
   prenom: string; nom: string; email: string; tel: string;
@@ -59,7 +56,7 @@ export default function Reservation() {
         <style>{`
           @media (min-width: 900px) { .res-grid { grid-template-columns: 5fr 7fr !important; gap: 6rem !important; } }
           .res-field:focus { border-color: rgba(201,168,76,0.45) !important; background: rgba(245,237,216,0.08) !important; }
-          .res-field::placeholder { color: rgba(245,237,216,0.2); }
+          .res-field::placeholder { color: rgba(245,237,216,0.42); }
           .res-field option { background: #1A1008; }
         `}</style>
 
@@ -84,14 +81,14 @@ export default function Reservation() {
                   <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: GOLD, marginBottom: 6 }}>{item.label}</div>
                   {item.href ? (
                     <a href={item.href} style={{
-                      fontSize: 14, color: `rgba(245,237,216,0.7)`, lineHeight: 1.65,
+                      fontSize: 14, color: TEXT.secondary, lineHeight: 1.65,
                       textDecoration: "none", transition: "color 0.2s ease",
                     }}
                       onMouseEnter={e => (e.currentTarget.style.color = CREAM)}
-                      onMouseLeave={e => (e.currentTarget.style.color = `rgba(245,237,216,0.7)`)}
+                      onMouseLeave={e => (e.currentTarget.style.color = TEXT.secondary)}
                     >{item.value}</a>
                   ) : (
-                    <div style={{ fontSize: 14, color: `rgba(245,237,216,0.7)`, lineHeight: 1.65, whiteSpace: "pre-line" }}>{item.value}</div>
+                    <div style={{ fontSize: 14, color: TEXT.secondary, lineHeight: 1.65, whiteSpace: "pre-line" }}>{item.value}</div>
                   )}
                 </div>
               ))}
@@ -151,7 +148,7 @@ export default function Reservation() {
                 <h3 className="font-serif" style={{ fontSize: 26, fontWeight: 300, fontStyle: "italic", color: CREAM }}>
                   Demande envoyée.
                 </h3>
-                <p style={{ fontSize: 14, color: `rgba(245,237,216,0.55)`, maxWidth: "34ch", lineHeight: 1.6 }}>
+                <p style={{ fontSize: 14, color: TEXT.secondary, maxWidth: "34ch", lineHeight: 1.6 }}>
                   Nous vous confirmerons votre réservation rapidement. A bientot !
                 </p>
               </div>
@@ -163,7 +160,7 @@ export default function Reservation() {
                     { name: "nom"    as const, label: "Nom",       placeholder: "Diallo"  },
                   ].map(f => (
                     <div key={f.name} style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                      <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: `rgba(245,237,216,0.4)` }}>{f.label}</label>
+                      <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: TEXT.muted }}>{f.label}</label>
                       <input className="res-field" {...register(f.name, { required: true })} style={field} placeholder={f.placeholder} />
                     </div>
                   ))}
@@ -171,29 +168,29 @@ export default function Reservation() {
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.875rem" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                    <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: `rgba(245,237,216,0.4)` }}>Email</label>
+                    <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: TEXT.muted }}>Email</label>
                     <input type="email" className="res-field" {...register("email", { required: true })} style={field} placeholder="aminata@gmail.com" />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                    <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: `rgba(245,237,216,0.4)` }}>Téléphone</label>
+                    <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: TEXT.muted }}>Téléphone</label>
                     <input type="tel" className="res-field" {...register("tel")} style={field} placeholder="+32 4XX XX XX XX" />
                   </div>
                 </div>
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "0.875rem" }}>
                   <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                    <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: `rgba(245,237,216,0.4)` }}>Date</label>
+                    <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: TEXT.muted }}>Date</label>
                     <input type="date" className="res-field" {...register("date", { required: true })} style={{ ...field, colorScheme: "dark" }} />
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                    <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: `rgba(245,237,216,0.4)` }}>Heure</label>
+                    <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: TEXT.muted }}>Heure</label>
                     <select className="res-field" {...register("heure", { required: true })} style={field}>
                       <option value="">--</option>
                       {HEURES.map(h => <option key={h} value={h}>{h}</option>)}
                     </select>
                   </div>
                   <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                    <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: `rgba(245,237,216,0.4)` }}>Personnes</label>
+                    <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: TEXT.muted }}>Personnes</label>
                     <select className="res-field" {...register("personnes", { required: true })} style={field}>
                       <option value="">N°</option>
                       {[1,2,3,4,5,6,7,8,9,10].map(n => <option key={n} value={n}>{n}</option>)}
@@ -203,7 +200,7 @@ export default function Reservation() {
                 </div>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                  <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: `rgba(245,237,216,0.4)` }}>Occasion (optionnel)</label>
+                  <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: TEXT.muted }}>Occasion (optionnel)</label>
                   <select className="res-field" {...register("occasion")} style={field}>
                     <option value="">Aucune en particulier</option>
                     <option value="anniversaire">Anniversaire</option>
@@ -214,7 +211,7 @@ export default function Reservation() {
                 </div>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: "0.35rem" }}>
-                  <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: `rgba(245,237,216,0.4)` }}>Message (optionnel)</label>
+                  <label style={{ fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: TEXT.muted }}>Message (optionnel)</label>
                   <textarea className="res-field" {...register("message")} rows={3}
                     style={{ ...field, resize: "vertical" }}
                     placeholder="Allergies, préférences, demandes spéciales..." />

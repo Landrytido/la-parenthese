@@ -1,10 +1,9 @@
 "use client";
 
-import { RESTAURANT } from "@/lib/constants";
+import Link from "next/link";
 
-const DARK  = "#1A1008";
-const CREAM = "#F5EDD8";
-const GOLD  = "#C9A84C";
+import { RESTAURANT } from "@/lib/constants";
+import { DARK, GOLD, TEXT } from "@/lib/theme";
 
 const year = new Date().getFullYear();
 
@@ -33,18 +32,18 @@ export default function Footer() {
           justifyContent: "space-between", gap: "1.5rem",
           paddingBottom: "1.5rem", borderBottom: `1px solid rgba(245,237,216,0.06)`,
         }}>
-          <a href="/" className="font-script" style={{ fontSize: 26, color: GOLD, textDecoration: "none" }}>
+          <Link href="/" className="font-script" style={{ fontSize: 26, color: GOLD, textDecoration: "none" }}>
             La Parenthèse
-          </a>
+          </Link>
 
           <nav style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
             {navLinks.map(l => (
               <a key={l.href} href={l.href} style={{
-                fontSize: 12, color: `rgba(245,237,216,0.4)`, textDecoration: "none",
+                fontSize: 12, color: TEXT.muted, textDecoration: "none",
                 letterSpacing: "0.04em", transition: "color 0.2s ease",
               }}
-                onMouseEnter={e => ((e.target as HTMLElement).style.color = `rgba(245,237,216,0.8)`)}
-                onMouseLeave={e => ((e.target as HTMLElement).style.color = `rgba(245,237,216,0.4)`)}
+                onMouseEnter={e => ((e.target as HTMLElement).style.color = TEXT.primary)}
+                onMouseLeave={e => ((e.target as HTMLElement).style.color = TEXT.muted)}
               >
                 {l.label}
               </a>
@@ -57,9 +56,9 @@ export default function Footer() {
               { label: "Facebook", href: "#", d: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
             ].map(s => (
               <a key={s.label} href={s.href} aria-label={s.label}
-                style={{ color: `rgba(245,237,216,0.3)`, transition: "color 0.2s ease", display: "flex" }}
+                style={{ color: TEXT.muted, transition: "color 0.2s ease", display: "flex" }}
                 onMouseEnter={e => ((e.currentTarget).style.color = GOLD)}
-                onMouseLeave={e => ((e.currentTarget).style.color = `rgba(245,237,216,0.3)`)}
+                onMouseLeave={e => ((e.currentTarget).style.color = TEXT.muted)}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -74,10 +73,10 @@ export default function Footer() {
           paddingTop: "1.25rem",
           display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "0.5rem",
         }}>
-          <p style={{ fontSize: 11, color: `rgba(245,237,216,0.22)`, letterSpacing: "0.04em" }}>
+          <p style={{ fontSize: 11, color: TEXT.muted, letterSpacing: "0.04em" }}>
             &copy; {year} La Parenthèse. Tous droits réservés.
           </p>
-          <p style={{ fontSize: 11, color: `rgba(245,237,216,0.18)` }}>
+          <p style={{ fontSize: 11, color: TEXT.muted }}>
             {RESTAURANT.address}
           </p>
         </div>

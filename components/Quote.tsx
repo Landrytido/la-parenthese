@@ -2,10 +2,9 @@
 
 import { motion } from "framer-motion";
 
-const EASE  = [0.16, 1, 0.3, 1] as [number, number, number, number];
-const DARK  = "#1A1008";
-const CREAM = "#F5EDD8";
-const GOLD  = "#C9A84C";
+import { DARK, CREAM, GOLD, TEXT } from "@/lib/theme";
+
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 export default function Quote() {
   return (
@@ -52,7 +51,7 @@ export default function Quote() {
           <cite style={{
             fontStyle: "normal", fontSize: 11,
             letterSpacing: "0.22em", textTransform: "uppercase",
-            color: `rgba(245,237,216,0.35)`,
+            color: TEXT.muted,
           }}>
             Proverbe d&apos;Afrique de l&apos;Ouest
           </cite>

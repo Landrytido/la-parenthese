@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | La Parenthèse",
   },
   description:
-    "Restaurant africain authentique à Anderlecht (Bruxelles). Cuisine d'Afrique de l'Ouest : Ndolé, Thiéboudienne, Eru, brochettes. Ouvert Lun–Dim 12h–00h. Réservation par téléphone ou WhatsApp.",
+    "Restaurant africain authentique à Anderlecht (Bruxelles). Cuisine d'Afrique de l'Ouest : Ndolé, Thiéboudienne, Eru, brochettes. Ouvert 7j/7 dès 12h (jusqu'à 2h le week-end). Réservation par téléphone ou WhatsApp.",
   keywords: [
     "restaurant africain Bruxelles",
     "restaurant africain Anderlecht",

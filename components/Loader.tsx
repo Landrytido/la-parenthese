@@ -7,8 +7,8 @@ export default function Loader() {
   const [fading, setFading] = useState(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setFading(true), 1600);
-    const t2 = setTimeout(() => setVisible(false), 2400);
+    const t1 = setTimeout(() => setFading(true), 400);
+    const t2 = setTimeout(() => setVisible(false), 800);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
@@ -24,7 +24,7 @@ export default function Loader() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        transition: "opacity 0.7s cubic-bezier(0.16,1,0.3,1)",
+        transition: "opacity 0.4s cubic-bezier(0.16,1,0.3,1)",
         opacity: fading ? 0 : 1,
         pointerEvents: fading ? "none" : "all",
       }}
@@ -46,7 +46,7 @@ export default function Loader() {
           style={{
             position: "absolute",
             inset: 0,
-            animation: "spin 3s linear infinite",
+            animation: "spin 1.1s linear infinite",
           }}
         >
           <svg width="72" height="72" viewBox="0 0 72 72" fill="none">

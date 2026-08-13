@@ -5,7 +5,15 @@
       "name": "la-parenthese",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
-      "port": 3002
+      "port": 3000,
+      "autoPort": true
+    },
+    {
+      "name": "la-parenthese-prod",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "start"],
+      "port": 3000,
+      "autoPort": true
     }
   ]
 }

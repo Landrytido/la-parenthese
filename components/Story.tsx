@@ -1,11 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "framer-motion";
 
-const EASE  = [0.16, 1, 0.3, 1] as [number, number, number, number];
-const DARK  = "#1A1008";
-const CREAM = "#F5EDD8";
-const GOLD  = "#C9A84C";
+import { RESTAURANT } from "@/lib/constants";
+import { DARK, CREAM, GOLD, TEXT, TEXT_ON_CREAM } from "@/lib/theme";
+
+const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 const values = [
   { title: "Authenticité", text: "Des recettes transmises de génération en génération, jamais compromises." },
@@ -37,6 +38,15 @@ export default function Story() {
         position: "relative",
       }}>
         <style>{`
+          /* Règles de base avant les media queries : à spécificité égale,
+             la dernière déclarée gagne. */
+          .story-values { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+
+          @media (min-width: 600px) {
+            /* Sous 600px, deux colonnes ne laissaient que ~135px de texte,
+               soit une vingtaine de caractères par ligne. */
+            .story-values { grid-template-columns: 1fr 1fr; }
+          }
           @media (min-width: 900px) {
             .story-grid { grid-template-columns: 5fr 7fr !important; gap: 6rem !important; }
           }
@@ -51,39 +61,37 @@ export default function Story() {
             transition={{ duration: 0.9, ease: EASE }}
             style={{ position: "relative" }}
           >
-            {/* Main block — dark on cream creates contrast */}
+            {/* Le motif kente qui occupait ce bloc s'étirait mal en 4/5 : il se
+                lisait comme des bandes horizontales, pas comme un textile. */}
             <div style={{
               aspectRatio: "4/5", background: DARK,
               position: "relative", overflow: "hidden", maxWidth: 420,
             }}>
-              {/* Gold kente pattern on dark block */}
-              <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: 0.3 }}
-                viewBox="0 0 200 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                {Array.from({ length: 11 }).map((_, i) => (
-                  <rect key={i} x="0" y={i * 22 + 4} width="200" height={i % 3 === 0 ? 8 : 3}
-                    fill={GOLD} opacity={i % 3 === 0 ? 0.55 : 0.25} />
-                ))}
-                {Array.from({ length: 9 }).map((_, i) => (
-                  <rect key={i} x={i * 22 + 4} y="0" width="3" height="250"
-                    fill={CREAM} opacity="0.08" />
-                ))}
-                {[0, 1, 2].map(row => [0, 1, 2, 3].map(col => (
-                  <polygon key={`${row}-${col}`}
-                    points={`${col*50+25},${row*80+5} ${col*50+50},${row*80+42} ${col*50+25},${row*80+80} ${col*50},${row*80+42}`}
-                    fill="none" stroke={GOLD} strokeWidth="0.8" opacity="0.3" />
-                )))}
-              </svg>
+              <Image
+                src="/photos/story-feu.jpg"
+                alt="Préparation d'un plat mijoté au feu de bois dans une marmite en fonte"
+                fill
+                sizes="(max-width: 900px) 100vw, 420px"
+                style={{ objectFit: "cover" }}
+              />
+              {/* Voile bas : la légende doit rester lisible quelle que soit la photo */}
+              <div style={{
+                position: "absolute", inset: 0, pointerEvents: "none",
+                background: `linear-gradient(to top,
+                  rgba(26,16,8,0.92) 0%, rgba(26,16,8,0.6) 26%, transparent 55%)`,
+              }} />
 
-              {/* Quote at bottom of dark block */}
               <div style={{ position: "absolute", bottom: "1.75rem", left: "1.5rem", right: "1.5rem" }}>
-                <p className="font-serif" style={{
-                  fontSize: "clamp(1rem,2.2vw,1.3rem)", fontStyle: "italic",
-                  color: CREAM, lineHeight: 1.45,
+                <p className="font-script" style={{
+                  fontSize: "clamp(2rem,4vw,2.75rem)", color: GOLD, lineHeight: 1,
                 }}>
-                  &laquo;&nbsp;Quand on partage un repas, on partage une histoire.&nbsp;&raquo;
+                  {RESTAURANT.since}
                 </p>
-                <p style={{ fontSize: 11, color: GOLD, marginTop: "0.5rem", letterSpacing: "0.1em" }}>
-                  Awa Diallo, fondatrice
+                <p style={{
+                  fontSize: 11, color: TEXT.secondary, marginTop: "0.6rem",
+                  letterSpacing: "0.18em", textTransform: "uppercase",
+                }}>
+                  Anderlecht, Bruxelles
                 </p>
               </div>
             </div>
@@ -111,19 +119,18 @@ export default function Story() {
             </h2>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "1.1rem", marginBottom: "3rem" }}>
-              <p style={{ fontSize: 16, color: `rgba(26,16,8,0.75)`, lineHeight: 1.75, fontWeight: 300 }}>
+              <p style={{ fontSize: 16, color: TEXT_ON_CREAM.secondary, lineHeight: 1.75, fontWeight: 300 }}>
                 La Parenthèse est née en 2019 d&apos;un rêve simple : créer un espace où les saveurs de
                 l&apos;Afrique de l&apos;Ouest rencontrent l&apos;hospitalité bruxelloise.
               </p>
-              <p style={{ fontSize: 16, color: `rgba(26,16,8,0.6)`, lineHeight: 1.75, fontWeight: 300 }}>
+              <p style={{ fontSize: 16, color: TEXT_ON_CREAM.muted, lineHeight: 1.75, fontWeight: 300 }}>
                 Notre cuisine puise dans les traditions du Sénégal, du Cameroun, de la Côte d&apos;Ivoire
                 et du Congo, revisitées avec les produits du marché local.
               </p>
             </div>
 
             {/* Values */}
-            <div style={{
-              display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem",
+            <div className="story-values" style={{
               borderTop: `1px solid rgba(26,16,8,0.12)`, paddingTop: "2rem",
             }}>
               {values.map((v, i) => (
@@ -138,7 +145,7 @@ export default function Story() {
                   <h3 className="font-serif" style={{ fontSize: 18, fontWeight: 500, color: DARK, marginBottom: "0.4rem" }}>
                     {v.title}
                   </h3>
-                  <p style={{ fontSize: 13, color: `rgba(26,16,8,0.6)`, lineHeight: 1.6 }}>
+                  <p style={{ fontSize: 13, color: TEXT_ON_CREAM.muted, lineHeight: 1.6 }}>
                     {v.text}
                   </p>
                 </motion.div>

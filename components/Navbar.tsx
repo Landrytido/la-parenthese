@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { List, X } from "@phosphor-icons/react";
 
-const DARK  = "#1A1008";
-const CREAM = "#F5EDD8";
-const GOLD  = "#C9A84C";
+import { DARK, CREAM, GOLD, TEXT } from "@/lib/theme";
 
 const links = [
   { label: "Notre histoire", href: "#histoire"   },
@@ -36,22 +35,34 @@ export default function Navbar() {
         backdropFilter: scrolled ? "blur(10px)" : "none",
         borderBottom: scrolled ? `1px solid rgba(201,168,76,0.1)` : "none",
       }}>
-        <a href="/" className="font-script"
-          style={{ fontSize: 26, color: GOLD, textDecoration: "none", lineHeight: 1 }}>
+        {/* Redondant avec le wordmark géant du hero : on ne le révèle qu'au scroll. */}
+        <Link href="/" className="font-script"
+          aria-hidden={!scrolled}
+          tabIndex={scrolled ? undefined : -1}
+          style={{
+            fontSize: 26, color: GOLD, textDecoration: "none", lineHeight: 1,
+            opacity: scrolled ? 1 : 0,
+            transform: scrolled ? "translateY(0)" : "translateY(-6px)",
+            transition: "opacity 0.35s ease, transform 0.35s ease",
+            pointerEvents: scrolled ? "auto" : "none",
+          }}>
           La Parenthèse
-        </a>
+        </Link>
 
         <div style={{ display: "flex", alignItems: "center", gap: "2rem" }}>
           {/* Desktop links */}
-          <div style={{ display: "flex", gap: "2rem" }} className="desktop-nav">
+          {/* Pas de `display` inline ici : il l'emporterait sur la règle
+              `.desktop-nav { display: none }` et les liens s'afficheraient
+              aussi sur mobile, par-dessus le hamburger. */}
+          <div style={{ gap: "2rem" }} className="desktop-nav">
             {links.map(l => (
               <a key={l.href} href={l.href} style={{
-                fontSize: 12, fontWeight: 400, color: `rgba(245,237,216,0.6)`,
+                fontSize: 12, fontWeight: 400, color: TEXT.secondary,
                 letterSpacing: "0.05em", textDecoration: "none",
                 transition: "color 0.2s ease",
               }}
                 onMouseEnter={e => ((e.target as HTMLElement).style.color = CREAM)}
-                onMouseLeave={e => ((e.target as HTMLElement).style.color = `rgba(245,237,216,0.6)`)}
+                onMouseLeave={e => ((e.target as HTMLElement).style.color = TEXT.secondary)}
               >
                 {l.label}
               </a>
