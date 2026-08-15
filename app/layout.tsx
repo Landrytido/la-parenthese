@@ -24,7 +24,11 @@ const pinyon = Pinyon_Script({
   display: "swap",
 });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://la-parenthese.vercel.app";
+// Domaine de production Vercel. ATTENTION : `la-parenthese.vercel.app` (sans
+// le suffixe) appartient à un autre restaurant du même nom, à Sète — l'y
+// pointer envoyait canonical, og:url et JSON-LD chez lui.
+// À changer ici le jour où un domaine personnalisé est branché.
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://la-parenthese-nu.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
