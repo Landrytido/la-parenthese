@@ -67,9 +67,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
   },
-  ...(process.env.GOOGLE_SITE_VERIFICATION && {
-    verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
-  }),
+  // Jeton public, permanent, propre à la propriété Search Console. Rien à
+  // cacher, rien à faire varier selon l'environnement : en variable d'env, un
+  // oubli de configuration ferait disparaître la balise sans le moindre signal.
+  verification: { google: "6C_NU4a0x5wyHo00NEp9KYa01jHuMgFuh0M7QlEp_Sk" },
 };
 
 const jsonLd = {
