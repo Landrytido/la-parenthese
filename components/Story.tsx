@@ -114,8 +114,8 @@ export default function Story() {
               fontSize: "clamp(2.8rem,5vw,4.5rem)", fontWeight: 300, fontStyle: "italic",
               color: DARK, lineHeight: 1.1, marginBottom: "2rem", letterSpacing: "-0.01em",
             }}>
-              Une table née<br />
-              <span style={{ color: GOLD }}>d&apos;une passion.</span>
+              Une table africaine<br />
+              <span style={{ color: GOLD }}>née d&apos;une passion.</span>
             </h2>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "1.1rem", marginBottom: "3rem" }}>

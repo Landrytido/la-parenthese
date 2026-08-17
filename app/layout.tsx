@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost, Pinyon_Script } from "next/font/google";
+
+import { SITE_URL, SOCIAL } from "@/lib/constants";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -23,12 +25,6 @@ const pinyon = Pinyon_Script({
   variable: "--font-pinyon",
   display: "swap",
 });
-
-// Domaine de production Vercel. ATTENTION : `la-parenthese.vercel.app` (sans
-// le suffixe) appartient à un autre restaurant du même nom, à Sète — l'y
-// pointer envoyait canonical, og:url et JSON-LD chez lui.
-// À changer ici le jour où un domaine personnalisé est branché.
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://la-parenthese-nu.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -121,7 +117,10 @@ const jsonLd = {
     },
   ],
   hasMap: `https://maps.google.com/maps?q=Boulevard+de+la+R%C3%A9vision+5%2C+1070+Anderlecht`,
-  sameAs: [] as string[],
+  // Relie ce site à la fiche Google Business et aux réseaux : c'est ce qui dit
+  // à Google « ce site et cette entreprise sont la même entité ».
+  // Se remplit tout seul dès qu'on ajoute une entrée dans SOCIAL.
+  sameAs: SOCIAL.map(s => s.href),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

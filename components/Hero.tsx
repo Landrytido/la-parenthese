@@ -60,20 +60,29 @@ export default function Hero() {
 
           {/* Gauche : texte */}
           <div>
-            <p className="animate-fade-up" style={{
-              fontSize: 10, letterSpacing: "0.28em", textTransform: "uppercase",
-              color: GOLD, fontWeight: 500, marginBottom: "1.75rem",
-            }}>
-              Restaurant Africain · Anderlecht, Bruxelles
-            </p>
+            {/* Le surtitre était un <p> hors de la hiérarchie des titres : le h1
+                ne contenait que le wordmark, donc aucun mot-clé. Les deux sont
+                maintenant dans le même h1 — rendu identique, texte bien visible
+                (pas de texte masqué), et le titre porte enfin « restaurant
+                africain » et « Anderlecht ». */}
+            <h1 style={{ margin: 0, fontSize: "inherit", fontWeight: 400 }}>
+              <span className="animate-fade-up" style={{
+                display: "block",
+                fontSize: 10, letterSpacing: "0.28em", textTransform: "uppercase",
+                color: GOLD, fontWeight: 500, marginBottom: "1.75rem",
+              }}>
+                Restaurant Africain · Anderlecht, Bruxelles
+              </span>
 
-            <h1 className="font-script animate-fade-up delay-200" style={{
-              fontSize: "clamp(4.5rem,10vw,9.5rem)",
-              lineHeight: 0.92, color: CREAM, marginBottom: "1.5rem",
-              letterSpacing: "0.01em",
-            }}>
-              la<br />
-              <span style={{ color: CREAM }}>(</span><span style={{ color: GOLD }}>Parenthèse</span><span style={{ color: CREAM }}>)</span>
+              <span className="font-script animate-fade-up delay-200" style={{
+                display: "block",
+                fontSize: "clamp(4.5rem,10vw,9.5rem)",
+                lineHeight: 0.92, color: CREAM, marginBottom: "1.5rem",
+                letterSpacing: "0.01em",
+              }}>
+                la<br />
+                <span style={{ color: CREAM }}>(</span><span style={{ color: GOLD }}>Parenthèse</span><span style={{ color: CREAM }}>)</span>
+              </span>
             </h1>
 
             <p className="font-serif animate-fade-up delay-400" style={{
