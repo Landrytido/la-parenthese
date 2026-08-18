@@ -10,7 +10,10 @@ const year = new Date().getFullYear();
 const SOCIAL_ICONS: Record<SocialLink["icon"], string> = {
   facebook:  "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z",
   instagram: "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm5.5-1.5v.01",
-  google:    "M21 12.2c0-.7-.06-1.2-.2-1.8H12v3.3h5.2c-.1.9-.7 2.2-1.9 3.1l-.02.1 2.8 2.2.2.02c1.8-1.7 2.8-4.1 2.8-6.9z M12 21c2.5 0 4.6-.8 6.1-2.2l-2.9-2.3c-.8.5-1.9.9-3.2.9-2.4 0-4.5-1.6-5.2-3.8l-.1.01-3 2.3-.04.1A9 9 0 0 0 12 21z M6.8 13.6a5.5 5.5 0 0 1 0-3.5l-.01-.1-3-2.4-.1.05a9 9 0 0 0 0 8.1z M12 6.6c1.7 0 2.9.7 3.5 1.3l2.6-2.5A9 9 0 0 0 12 3a9 9 0 0 0-8 4.6l3 2.4c.8-2.2 2.8-3.4 5-3.4z",
+  // Épingle de carte plutôt que le logo Google : les icônes du footer sont
+  // rendues en contour (fill:none + stroke), et le G est un logo plein — le
+  // tracer en fil de fer donnait une bouillie illisible.
+  google:    "M12 21c4.6-4.4 7-7.9 7-10.5a7 7 0 1 0-14 0c0 2.6 2.4 6.1 7 10.5z M12 12.6a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4z",
 };
 
 const navLinks = [

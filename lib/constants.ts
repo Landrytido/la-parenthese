@@ -18,12 +18,20 @@ export type SocialLink = {
  *  JSON-LD, qui indique à Google que ce site et cette entreprise sont une seule
  *  et même entité — c'est ce qui relie le site à la fiche Google Business.
  *
- *  Volontairement vide : il n'y avait qu'un lien Facebook pointant sur "#",
- *  c'est-à-dire nulle part. Un lien mort vaut moins que pas de lien.
- *  Dès que la fiche Google Business existe, ajoute-la ici en premier :
- *    { label: "Google", href: "https://...", icon: "google" }
- */
-export const SOCIAL: SocialLink[] = [];
+ *  Note : on pointe la FICHE, pas le lien `/review`. `sameAs` doit désigner la
+ *  page de l'entité, pas une action. Le lien pour déposer un avis est le même
+ *  suivi de `/review` — utile comme bouton, pas comme identité. */
+export const SOCIAL: SocialLink[] = [
+  {
+    label: "La Parenthèse sur Google Maps",
+    href: "https://g.page/r/CRi--Qk901p5EBM",
+    icon: "google",
+  },
+];
+
+/** Lien direct vers le formulaire d'avis Google. Les avis sont le premier
+ *  facteur de classement local — non utilisé pour l'instant. */
+export const REVIEW_URL = "https://g.page/r/CRi--Qk901p5EBM/review";
 
 export const RESTAURANT = {
   name:    "La Parenthèse",
