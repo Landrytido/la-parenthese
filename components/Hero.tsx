@@ -106,8 +106,8 @@ export default function Hero() {
               color: TEXT.secondary, lineHeight: 1.75, maxWidth: "44ch",
               marginBottom: "2.5rem",
             }}>
-              Les saveurs du Sénégal, du Cameroun et du Congo, cuisinées chaque
-              jour à Anderlecht.
+              Les saveurs du Cameroun et de l&apos;Afrique, cuisinées chaque jour
+              à Anderlecht.
             </p>
 
             <div className="animate-fade-up delay-600" style={{

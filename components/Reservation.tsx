@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { CheckCircle, WhatsappLogo } from "@phosphor-icons/react";
 
-import { RESTAURANT } from "@/lib/constants";
+import { RESTAURANT, PAYMENT } from "@/lib/constants";
+import { reservationSlots } from "@/lib/hours";
 import { DARK, CREAM, GOLD, TEXT } from "@/lib/theme";
 
 const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_ID ?? "";
@@ -14,7 +15,8 @@ type FormData = {
   date: string; heure: string; personnes: string; occasion: string; message: string;
 };
 
-const HEURES = ["12:00","12:30","13:00","13:30","14:00","19:00","19:30","20:00","20:30","21:00","21:30","22:00","22:30"];
+// Service continu : les créneaux viennent des horaires réels (lib/hours.ts).
+const HEURES = reservationSlots();
 
 const field: React.CSSProperties = {
   width: "100%", background: "rgba(245,237,216,0.05)",
@@ -76,6 +78,7 @@ export default function Reservation() {
                 { label: "Adresse",   value: address,       href: undefined },
                 { label: "Horaires",  value: hours.full,    href: undefined },
                 { label: "Téléphone", value: phone.display, href: phone.href },
+                { label: "Paiement",  value: PAYMENT.join(", "), href: undefined },
               ].map(item => (
                 <div key={item.label} style={{ paddingLeft: "1rem", borderLeft: `2px solid rgba(201,168,76,0.3)` }}>
                   <div style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: GOLD, marginBottom: 6 }}>{item.label}</div>

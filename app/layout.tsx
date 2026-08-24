@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Jost, Pinyon_Script } from "next/font/google";
 
-import { SITE_URL, SOCIAL } from "@/lib/constants";
+import { SITE_URL, SOCIAL, PAYMENT } from "@/lib/constants";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -33,21 +33,19 @@ export const metadata: Metadata = {
     template: "%s | La Parenthèse",
   },
   description:
-    "Restaurant africain authentique à Anderlecht (Bruxelles). Cuisine d'Afrique de l'Ouest : Ndolé, Thiéboudienne, Eru, brochettes. Ouvert 7j/7 dès 12h (jusqu'à 2h le week-end). Réservation par téléphone ou WhatsApp.",
+    "Restaurant camerounais et africain à Anderlecht (Bruxelles). Ndolé, Eru, Kontchap, poulet DG, brochettes, poisson braisé. Ouvert 7j/7 dès 12h (jusqu'à 2h le week-end). Réservation par téléphone ou WhatsApp.",
   keywords: [
     "restaurant africain Bruxelles",
     "restaurant africain Anderlecht",
     "cuisine africaine Belgique",
     "restaurant camerounais Bruxelles",
-    "restaurant sénégalais Bruxelles",
     "Ndolé Bruxelles",
-    "Thiéboudienne Bruxelles",
     "La Parenthèse Anderlecht",
   ],
   openGraph: {
     title: "La Parenthèse — Restaurant Africain à Anderlecht",
     description:
-      "Cuisine africaine authentique au cœur d'Anderlecht. Saveurs d'Afrique de l'Ouest, ambiance chaleureuse. Réservations disponibles.",
+      "Cuisine camerounaise et africaine au cœur d'Anderlecht. Ndolé, Eru, grillades, ambiance chaleureuse. Réservations disponibles.",
     url: SITE_URL,
     siteName: "La Parenthèse",
     locale: "fr_BE",
@@ -78,7 +76,7 @@ const jsonLd = {
   "@type": "Restaurant",
   name: "La Parenthèse",
   description:
-    "Restaurant africain authentique à Anderlecht, Bruxelles. Cuisine d'Afrique de l'Ouest.",
+    "Restaurant camerounais et africain à Anderlecht, Bruxelles.",
   url: SITE_URL,
   telephone: "+3226496087",
   address: {
@@ -95,12 +93,11 @@ const jsonLd = {
   },
   servesCuisine: [
     "Cuisine africaine",
-    "Cuisine d'Afrique de l'Ouest",
+    "Cuisine d'Afrique centrale",
     "Cuisine camerounaise",
-    "Cuisine sénégalaise",
-    "Cuisine congolaise",
   ],
   priceRange: "€€",
+  paymentAccepted: PAYMENT.join(", "),
   currenciesAccepted: "EUR",
   openingHoursSpecification: [
     {

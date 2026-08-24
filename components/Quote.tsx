@@ -53,7 +53,7 @@ export default function Quote() {
             letterSpacing: "0.22em", textTransform: "uppercase",
             color: TEXT.muted,
           }}>
-            Proverbe d&apos;Afrique de l&apos;Ouest
+            Proverbe africain
           </cite>
         </motion.div>
       </div>

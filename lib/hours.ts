@@ -41,6 +41,26 @@ function brusselsParts(now: Date) {
   };
 }
 
+/** Dernier créneau de réservation proposé.
+ *  Le service est continu de 12h à minuit (2h le week-end), mais on ne prend
+ *  pas de réservation jusqu'à l'heure de fermeture.
+ *  23h est une hypothèse : l'heure de dernière commande en cuisine reste à
+ *  confirmer avec le restaurant. */
+const LAST_SLOT_HOUR = 23;
+
+/** Créneaux du formulaire de réservation, dérivés des horaires réels.
+ *  Auparavant codés en dur de 12h à 14h puis 19h à 22h30, ce qui laissait
+ *  croire à une coupure l'après-midi alors que le service est continu. */
+export function reservationSlots(stepMinutes = 30): string[] {
+  const out: string[] = [];
+  for (let m = OPEN_HOUR * 60; m <= LAST_SLOT_HOUR * 60; m += stepMinutes) {
+    const h = Math.floor(m / 60);
+    const min = m % 60;
+    out.push(`${String(h).padStart(2, "0")}:${String(min).padStart(2, "0")}`);
+  }
+  return out;
+}
+
 export type OpenState = {
   open: boolean;
   /** "Ouvert" | "Fermé" */

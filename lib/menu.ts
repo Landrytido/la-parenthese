@@ -261,7 +261,7 @@ const boissons: Dish[] = [
 
 const bieres: Dish[] = [
   // Européennes
-  { id: "carberg",             name: { fr: "Carberg",            en: "Carberg"           }, description: { fr: "Bière blonde européenne rafraîchissante.",       en: "Refreshing European blonde beer."      }, price: 3,   category: "bieres", image: "" },
+  { id: "carberg",             name: { fr: "Carlsberg",            en: "Carlsberg"           }, description: { fr: "Bière blonde européenne rafraîchissante.",       en: "Refreshing European blonde beer."      }, price: 3,   category: "bieres", image: "" },
   { id: "leffe-blonde",        name: { fr: "Leffe Blonde",       en: "Leffe Blonde"      }, description: { fr: "Bière belge blonde authentique.",               en: "Authentic Belgian blonde beer."        }, price: 3.5, category: "bieres", image: "" },
   { id: "leffe-brune",         name: { fr: "Leffe Brune",        en: "Leffe Brown"       }, description: { fr: "Bière belge brune aux arômes complexes.",       en: "Belgian brown beer with complex aromas."}, price: 3.5, category: "bieres", image: "" },
   { id: "jupiler-petite",      name: { fr: "Jupiler Petite",     en: "Jupiler Small"     }, description: { fr: "Petite Jupiler, bière belge classique.",         en: "Small Jupiler, classic Belgian beer."  }, price: 2.5, category: "bieres", image: "" },

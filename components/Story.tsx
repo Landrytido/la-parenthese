@@ -121,11 +121,11 @@ export default function Story() {
             <div style={{ display: "flex", flexDirection: "column", gap: "1.1rem", marginBottom: "3rem" }}>
               <p style={{ fontSize: 16, color: TEXT_ON_CREAM.secondary, lineHeight: 1.75, fontWeight: 300 }}>
                 La Parenthèse est née en 2019 d&apos;un rêve simple : créer un espace où les saveurs de
-                l&apos;Afrique de l&apos;Ouest rencontrent l&apos;hospitalité bruxelloise.
+                l&apos;Afrique rencontrent l&apos;hospitalité bruxelloise.
               </p>
               <p style={{ fontSize: 16, color: TEXT_ON_CREAM.muted, lineHeight: 1.75, fontWeight: 300 }}>
-                Notre cuisine puise dans les traditions du Sénégal, du Cameroun, de la Côte d&apos;Ivoire
-                et du Congo, revisitées avec les produits du marché local.
+                Notre cuisine puise dans les traditions camerounaises — ndolé, eru, kontchap —
+                revisitées avec les produits du marché local.
               </p>
             </div>
 

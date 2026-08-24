@@ -8,7 +8,7 @@ import { DARK, CREAM, GOLD, TEXT } from "@/lib/theme";
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 const cells = [
-  { id: 1, label: "Thiéboudienne", photo: "/photos/gal-thieboudienne.jpg" },
+  { id: 1, label: "Poulet Braisé", photo: "/photos/gal-thieboudienne.jpg" },
   { id: 2, label: "Notre salle",   photo: "/photos/gal-salle.jpg"         },
   { id: 3, label: "Épices",        photo: "/photos/gal-epices.jpg"        },
   { id: 4, label: "Ndolé",         photo: "/photos/gal-ndole.jpg"         },

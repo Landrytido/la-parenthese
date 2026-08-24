@@ -33,6 +33,16 @@ export const SOCIAL: SocialLink[] = [
  *  facteur de classement local — non utilisé pour l'instant. */
 export const REVIEW_URL = "https://g.page/r/CRi--Qk901p5EBM/review";
 
+/** Moyens de paiement acceptés.
+ *  Les chèques-repas sont annoncés « bientôt » (au 24/08/2026) : volontairement
+ *  ABSENTS de cette liste tant qu'ils ne sont pas effectifs — annoncer un moyen
+ *  de paiement indisponible se paie au comptoir. À ajouter le jour venu. */
+export const PAYMENT = [
+  "Espèces",
+  "Bancontact",
+  "Cartes de débit et de crédit",
+] as const;
+
 export const RESTAURANT = {
   name:    "La Parenthèse",
   address: "Boulevard de la Révision 5, 1070 Anderlecht, Bruxelles",
