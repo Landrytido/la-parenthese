@@ -8,6 +8,9 @@ export interface Dish {
   isSignature?: boolean;
   isPopular?: boolean;
   isWeekendOnly?: boolean;
+  /** Remplace le prix a l'affichage (« Sur commande », « Nous consulter »).
+   *  Quand il est present, `price` n'est jamais montre. */
+  priceLabel?: string;
   priceRange?: string;
   preparationTime?: number;
   allergens?: string[];
@@ -19,6 +22,19 @@ export interface MenuCategory {
   name: { fr: string; en: string };
   icon: string;
   order: number;
+}
+
+/** Format belge : virgule decimale, centimes toujours affiches.
+ *  Source unique — la carte ET les cartes Specialites passent par ici, sinon
+ *  un prix comme 12.5 s'affiche « 12.5 € » a un endroit et « 12,50 € » a l'autre. */
+const EUR = new Intl.NumberFormat("fr-BE", {
+  style: "currency", currency: "EUR", minimumFractionDigits: 2,
+});
+
+export function formatPrice(dish: Dish): string {
+  if (dish.priceLabel) return dish.priceLabel;
+  const amount = EUR.format(dish.price);
+  return dish.priceRange ? `${dish.priceRange} ${amount}` : amount;
 }
 
 export const menuCategories: MenuCategory[] = [
@@ -63,7 +79,8 @@ function makeSauceDish(protein: Protein, sauce: Sauce): Dish {
   const s = SAUCE_META[sauce];
   return {
     id:          `${protein}-${sauce}`,
-    name:        { fr: `${p.fr} ${s.nameFr}`, en: `${p.en} in ${s.nameEn}` },
+    // Le plat d'abord, la proteine ensuite : « Ndole Poulet », pas « Poulet Ndole ».
+    name:        { fr: `${s.nameFr} ${p.fr}`, en: `${s.nameEn} ${p.en}` },
     description: { fr: `${p.fr} ${s.descFr}.`, en: `${p.en} ${s.descEn}.` },
     price:       15,
     category:    p.category,
@@ -85,27 +102,29 @@ const specialites: Dish[] = [
     id: "eru",
     name:        { fr: "Eru",                                en: "Eru" },
     description: { fr: "Plat traditionnel camerounais aux feuilles d'eru, viande et poisson fumé.", en: "Traditional Cameroonian dish with eru leaves, meat and smoked fish." },
-    price: 13, category: "specialites", image: "", isSignature: true, preparationTime: 45,
+    price: 12.5, category: "specialites", image: "", isSignature: true, preparationTime: 45,
     tags: ["traditionnel", "camerounais"],
   },
   {
     id: "kontchap",
     name:        { fr: "Kontchap",                          en: "Kontchap" },
     description: { fr: "Spécialité camerounaise aux légumes verts et viande, savoureux et généreux.", en: "Cameroonian specialty with green vegetables and meat, flavorful and generous." },
-    price: 10, category: "specialites", image: "", isSignature: true, preparationTime: 35,
+    price: 0, priceLabel: "Sur commande", category: "specialites", image: "", isSignature: true, preparationTime: 35,
   },
   {
     id: "ndole-mixte",
-    name:        { fr: "Ndolé Mixte",                       en: "Mixed Ndole" },
+    name:        { fr: "Ndolé Royal",                       en: "Royal Ndole" },
     description: { fr: "Notre ndolé signature — viande et poisson, feuilles amères, cacahuètes grillées. Le plat le plus demandé.", en: "Our signature ndole — meat and fish, bitter leaves, roasted peanuts. Our most requested dish." },
-    price: 15, category: "specialites", image: "", isSignature: true, isPopular: true, preparationTime: 40,
+    // Prix reel inconnu au 24/08/2026 — surtout ne pas laisser 15 €, qui etait faux :
+    // le Royal est le melange, plus cher que les ndoles simples. A remplacer des reception.
+    price: 0, priceLabel: "Nous consulter", category: "specialites", image: "", isSignature: true, isPopular: true, preparationTime: 40,
     allergens: ["cacahuètes"],
   },
   {
     id: "macabo-malaxe-ndole-poisson",
     name:        { fr: "Macabo Malaxé + Ndolé Poisson",     en: "Mashed Macabo + Fish Ndole" },
     description: { fr: "Macabo pilé à la main, accompagné de ndolé au poisson. Une combinaison parfaite.", en: "Hand-mashed macabo with fish ndole. A perfect combination." },
-    price: 17.5, category: "specialites", image: "", isSignature: true, preparationTime: 50,
+    price: 0, priceLabel: "Sur commande", category: "specialites", image: "", isSignature: true, preparationTime: 50,
   },
   {
     id: "brochettes",
@@ -116,8 +135,20 @@ const specialites: Dish[] = [
   {
     id: "taro-sauce-jaune",
     name:        { fr: "Taro Sauce Jaune",                  en: "Taro Yellow Sauce" },
-    description: { fr: "Taro et sauce jaune épicée — spécialité du weekend uniquement.", en: "Taro with spicy yellow sauce — weekend specialty only." },
-    price: 15, category: "specialites", image: "", isWeekendOnly: true, preparationTime: 45,
+    description: { fr: "Taro et sauce jaune épicée, préparé chaque jour.", en: "Taro with spicy yellow sauce, made daily." },
+    price: 15, category: "specialites", image: "", preparationTime: 45,
+  },
+  {
+    id: "nkui",
+    name:        { fr: "N'kui",                             en: "Nkui" },
+    description: { fr: "Spécialité bamiléké à la texture onctueuse, préparée à la demande.", en: "Bamileke specialty with a silky texture, made to order." },
+    price: 0, priceLabel: "Sur commande", category: "specialites", image: "", isSignature: true, preparationTime: 60,
+  },
+  {
+    id: "riz-saute",
+    name:        { fr: "Riz Sauté",                         en: "Fried Rice" },
+    description: { fr: "Riz sauté aux légumes et épices, préparé à la demande.", en: "Rice sautéed with vegetables and spices, made to order." },
+    price: 0, priceLabel: "Sur commande", category: "specialites", image: "", preparationTime: 30,
   },
   {
     id: "beignets-haricot",
@@ -141,25 +172,25 @@ const viandesExtra: Dish[] = [
     id: "porc-braise",
     name:        { fr: "Porc Braisé",    en: "Braised Pork" },
     description: { fr: "Porc braisé lentement aux épices, tendre et profondément savoureux.", en: "Slowly braised pork with spices, tender and deeply flavorful." },
-    price: 16, category: "viandes", image: "", isPopular: true, preparationTime: 45,
+    price: 15, category: "viandes", image: "", isPopular: true, preparationTime: 45,
   },
   {
     id: "chevre",
     name:        { fr: "Chèvre",         en: "Goat" },
     description: { fr: "Viande de chèvre grillée aux épices traditionnelles, goût authentique.", en: "Grilled goat meat with traditional spices, authentic taste." },
-    price: 12.5, category: "viandes", image: "", preparationTime: 50,
+    price: 15, category: "viandes", image: "", preparationTime: 50,
   },
   {
     id: "rognons-sautes",
     name:        { fr: "Rognons Sautés", en: "Sautéed Kidneys" },
     description: { fr: "Rognons sautés aux oignons et épices, spécialité de la maison.", en: "Kidneys sautéed with onions and spices, house specialty." },
-    price: 12.5, category: "viandes", image: "", preparationTime: 30,
+    price: 15, category: "viandes", image: "", preparationTime: 30,
   },
   {
     id: "tripes-sautes",
     name:        { fr: "Tripes Sautés",  en: "Sautéed Tripe" },
     description: { fr: "Tripes sautés aux légumes et épices, plat traditionnel consistant.", en: "Tripe sautéed with vegetables and spices, hearty traditional dish." },
-    price: 12.5, category: "viandes", image: "", preparationTime: 45,
+    price: 15, category: "viandes", image: "", preparationTime: 45,
   },
   {
     id: "petits-os",
@@ -179,6 +210,12 @@ const pouletExtra: Dish[] = [
     price: 15, category: "poulets", image: "", isPopular: true, preparationTime: 35,
   },
   {
+    id: "poulet-dg-entier",
+    name:        { fr: "Poulet DG Entier", en: "Whole Chicken DG" },
+    description: { fr: "Poulet entier à la manière Directeur Général — plantains, légumes, sauce maison. Pour deux à trois personnes.", en: "Whole chicken Director General style — plantains, vegetables, house sauce. Serves two to three." },
+    price: 30, category: "poulets", image: "", isPopular: true, preparationTime: 45,
+  },
+  {
     id: "poulet-braise",
     name:        { fr: "Poulet Braisé",  en: "Braised Chicken" },
     description: { fr: "Poulet grillé au feu de bois, peau croustillante et chair tendre.", en: "Wood-fired grilled chicken, crispy skin and tender meat." },
@@ -196,10 +233,16 @@ const pouletExtra: Dish[] = [
 
 const poissonExtra: Dish[] = [
   {
-    id: "maquereau",
-    name:        { fr: "Maquereau",      en: "Mackerel" },
+    id: "maquereau-petit",
+    name:        { fr: "Maquereau (petit)", en: "Mackerel (small)" },
     description: { fr: "Maquereau frais du jour, grillé ou en sauce selon votre envie.", en: "Fresh daily mackerel, grilled or sauced as you wish." },
-    price: 18, category: "poissons", image: "", priceRange: "À partir de", preparationTime: 25,
+    price: 15, category: "poissons", image: "", preparationTime: 25,
+  },
+  {
+    id: "maquereau-grand",
+    name:        { fr: "Maquereau (grand)", en: "Mackerel (large)" },
+    description: { fr: "Maquereau frais du jour, grand format.", en: "Fresh daily mackerel, large size." },
+    price: 20, category: "poissons", image: "", preparationTime: 25,
   },
   {
     id: "bar",
@@ -208,10 +251,22 @@ const poissonExtra: Dish[] = [
     price: 25, category: "poissons", image: "", priceRange: "À partir de", preparationTime: 30,
   },
   {
-    id: "tilapia",
-    name:        { fr: "Tilapia",        en: "Tilapia" },
+    id: "tilapia-petit",
+    name:        { fr: "Tilapia (petit)", en: "Tilapia (small)" },
     description: { fr: "Tilapia frais grillé ou braisé, poisson doux et savoureux.", en: "Fresh tilapia grilled or braised, mild and flavorful fish." },
-    price: 20, category: "poissons", image: "", priceRange: "À partir de", preparationTime: 25,
+    price: 15, category: "poissons", image: "", preparationTime: 25,
+  },
+  {
+    id: "tilapia-grand",
+    name:        { fr: "Tilapia (grand)", en: "Tilapia (large)" },
+    description: { fr: "Tilapia frais grillé ou braisé, grand format.", en: "Fresh tilapia grilled or braised, large size." },
+    price: 20, category: "poissons", image: "", preparationTime: 25,
+  },
+  {
+    id: "bouillon-poisson",
+    name:        { fr: "Bouillon de Poisson", en: "Fish Broth" },
+    description: { fr: "Bouillon de poisson relevé, mijoté longuement.", en: "Spiced fish broth, slowly simmered." },
+    price: 20, category: "poissons", image: "", preparationTime: 35,
   },
   {
     id: "sole",
@@ -230,9 +285,11 @@ const complements: Dish[] = [
   { id: "igname-vapeur",     name: { fr: "Igname Vapeur",     en: "Steamed Yam"          }, description: { fr: "Igname cuite à la vapeur, naturelle et rassasiante.",       en: "Steamed yam, natural and filling."               }, price: 5,   category: "complements", image: "", preparationTime: 25, tags: ["végétarien"] },
   { id: "plantain-vapeur",   name: { fr: "Plantain Vapeur",   en: "Steamed Plantain"     }, description: { fr: "Plantain cuit à la vapeur, doux et savoureux.",             en: "Steamed plantain, soft and tasty."               }, price: 5,   category: "complements", image: "", preparationTime: 20, tags: ["végétarien"] },
   { id: "patate-vapeur",     name: { fr: "Patate Vapeur",     en: "Steamed Sweet Potato" }, description: { fr: "Patate douce vapeur, sucrée naturellement.",                en: "Steamed sweet potato, naturally sweet."          }, price: 7,   category: "complements", image: "", preparationTime: 30, tags: ["végétarien"] },
-  { id: "patate-frittes",    name: { fr: "Patate Frittes",    en: "Sweet Potato Fries"   }, description: { fr: "Frites de patate douce, croustillantes et dorées.",         en: "Crispy and golden sweet potato fries."           }, price: 5,   category: "complements", image: "", preparationTime: 15, tags: ["végétarien"] },
   { id: "riz",               name: { fr: "Riz",               en: "Rice"                 }, description: { fr: "Riz blanc parfumé.",                                        en: "Fragrant white rice."                            }, price: 3.5, category: "complements", image: "", preparationTime: 20, tags: ["végétarien"] },
   { id: "semoule",           name: { fr: "Semoule",           en: "Semolina"             }, description: { fr: "Semoule fine, parfaite pour accompagner les sauces.",       en: "Fine semolina, perfect to soak up sauces."       }, price: 3.5, category: "complements", image: "", preparationTime: 15, tags: ["végétarien"] },
+  { id: "foufou-manioc",     name: { fr: "Foufou Manioc",     en: "Cassava Fufu"         }, description: { fr: "Foufou de manioc, souple et neutre, parfait avec les sauces.", en: "Cassava fufu, soft and neutral, perfect with sauces." }, price: 5,   category: "complements", image: "", preparationTime: 20, tags: ["végétarien"] },
+  { id: "foufou-igname",     name: { fr: "Foufou Igname",     en: "Yam Fufu"             }, description: { fr: "Foufou d'igname pilé, dense et rassasiant.", en: "Pounded yam fufu, dense and filling." }, price: 5,   category: "complements", image: "", preparationTime: 25, tags: ["végétarien"] },
+  { id: "chikwangue",        name: { fr: "Chikwangue",        en: "Chikwangue"           }, description: { fr: "Bâton de manioc fermenté enveloppé en feuille.", en: "Fermented cassava stick wrapped in leaves." }, price: 3.5, category: "complements", image: "", preparationTime: 10 },
   { id: "bobolo",            name: { fr: "Bobolo",            en: "Bobolo"               }, description: { fr: "Manioc fermenté traditionnel, spécialité camerounaise.",    en: "Traditional fermented cassava, Cameroonian specialty." }, price: 3.5, category: "complements", image: "", preparationTime: 10 },
 ];
 
@@ -245,7 +302,6 @@ const boissons: Dish[] = [
   { id: "vimto",            name: { fr: "Vimto",            en: "Vimto"             }, description: { fr: "Boisson aux fruits exotiques.",             en: "Exotic fruit drink."                }, price: 2.5, category: "boissons", image: "" },
   { id: "ginger",           name: { fr: "Ginger",           en: "Ginger Beer"       }, description: { fr: "Boisson au gingembre piquante et fraîche.", en: "Spicy and refreshing ginger drink." }, price: 2.5, category: "boissons", image: "" },
   { id: "perrier",          name: { fr: "Perrier",          en: "Perrier"           }, description: { fr: "Eau gazeuse naturelle française.",          en: "French natural sparkling water."    }, price: 3,   category: "boissons", image: "" },
-  { id: "pellegrino",       name: { fr: "Pellegrino",       en: "Pellegrino"        }, description: { fr: "Eau gazeuse italienne de prestige.",        en: "Prestigious Italian sparkling water."}, price: 3,  category: "boissons", image: "" },
   { id: "eau-gazeuse-spa",  name: { fr: "Spa Gazeuse",      en: "Spa Sparkling"     }, description: { fr: "Eau gazeuse belge pure.",                  en: "Pure Belgian sparkling water."      }, price: 2.5, category: "boissons", image: "" },
   { id: "eau-plate-spa",    name: { fr: "Spa Plate",        en: "Spa Still"         }, description: { fr: "Eau plate belge naturelle.",               en: "Natural Belgian still water."       }, price: 2.5, category: "boissons", image: "" },
   { id: "red-bull",         name: { fr: "Red Bull",         en: "Red Bull"          }, description: { fr: "Boisson énergisante iconique.",             en: "Iconic energy drink."               }, price: 4,   category: "boissons", image: "" },

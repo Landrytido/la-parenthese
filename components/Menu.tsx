@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import { getDishesByCategory, menuCategories, type Dish } from "@/lib/menu";
+import { getDishesByCategory, menuCategories, formatPrice, type Dish } from "@/lib/menu";
 import { DARK, CREAM, GOLD, TEXT } from "@/lib/theme";
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
@@ -19,19 +19,9 @@ const TABS = [
   { key: "poulets",     label: "Poulets",          cats: ["poulets"],     dense: false },
   { key: "poissons",    label: "Poissons",         cats: ["poissons"],    dense: false },
   { key: "complements", label: "Accompagnements",  cats: ["complements"], dense: false },
-  { key: "boissons",    label: "Boissons",         cats: ["boissons", "bieres", "vins", "liqueurs"], dense: true },
+  // Les prix des boissons ne sont plus affiches (decision du 24/08/2026).
+  { key: "boissons",    label: "Boissons",         cats: ["boissons", "bieres", "vins", "liqueurs"], dense: true, hidePrices: true },
 ];
-
-/** Format belge : virgule décimale et centimes toujours affichés.
- *  Sans ça, 2.5 s'affichait « 2.5 € » au lieu de « 2,50 € ». */
-const EUR = new Intl.NumberFormat("fr-BE", {
-  style: "currency", currency: "EUR", minimumFractionDigits: 2,
-});
-
-function formatPrice(dish: Dish) {
-  const amount = EUR.format(dish.price);
-  return dish.priceRange ? `${dish.priceRange} ${amount}` : amount;
-}
 
 function SignatureBadge() {
   return (
@@ -44,23 +34,27 @@ function SignatureBadge() {
   );
 }
 
-function DenseRow({ dish }: { dish: Dish }) {
+function DenseRow({ dish, hidePrice }: { dish: Dish; hidePrice?: boolean }) {
   return (
     <div style={{ display: "flex", alignItems: "baseline", gap: "0.6rem", padding: "0.5rem 0" }}>
       <span style={{ fontSize: 14, color: TEXT.primary, fontWeight: 300, flexShrink: 0 }}>
         {dish.name.fr}
       </span>
       {dish.isSignature && <SignatureBadge />}
-      {/* Ligne de conduite : l'œil suit du nom jusqu'au prix */}
-      <span aria-hidden="true" style={{
-        flex: 1, minWidth: "1.5rem", alignSelf: "center",
-        borderBottom: `1px dotted rgba(201,168,76,0.3)`,
-      }} />
-      <span className="font-serif" style={{
-        fontSize: 15, color: GOLD, fontWeight: 500, whiteSpace: "nowrap", flexShrink: 0,
-      }}>
-        {formatPrice(dish)}
-      </span>
+      {!hidePrice && (
+        <>
+          {/* Ligne de conduite : l'oeil suit du nom jusqu'au prix */}
+          <span aria-hidden="true" style={{
+            flex: 1, minWidth: "1.5rem", alignSelf: "center",
+            borderBottom: `1px dotted rgba(201,168,76,0.3)`,
+          }} />
+          <span className="font-serif" style={{
+            fontSize: 15, color: GOLD, fontWeight: 500, whiteSpace: "nowrap", flexShrink: 0,
+          }}>
+            {formatPrice(dish)}
+          </span>
+        </>
+      )}
     </div>
   );
 }
@@ -220,7 +214,9 @@ export default function Menu() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: Math.min(i * 0.03, 0.25), ease: EASE }}
                     >
-                      {tab.dense ? <DenseRow dish={dish} /> : <FullRow dish={dish} />}
+                      {tab.dense
+                        ? <DenseRow dish={dish} hidePrice={tab.hidePrices} />
+                        : <FullRow dish={dish} />}
                     </motion.div>
                   ))}
                 </div>

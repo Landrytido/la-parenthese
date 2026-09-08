@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-import { getDishById } from "@/lib/menu";
+import { getDishById, formatPrice } from "@/lib/menu";
 import { DARK, CREAM, GOLD, TEXT } from "@/lib/theme";
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number];
@@ -116,7 +116,7 @@ export default function Specialties() {
                   {card.dish.description.fr}
                 </p>
                 <p className="font-serif" style={{ marginTop: "1.25rem", fontSize: 18, color: GOLD, fontWeight: 500 }}>
-                  {card.dish.price} €
+                  {formatPrice(card.dish)}
                 </p>
               </div>
             </motion.article>

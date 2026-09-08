@@ -41,9 +41,19 @@ export default function Footer() {
           justifyContent: "space-between", gap: "1.5rem",
           paddingBottom: "1.5rem", borderBottom: `1px solid rgba(245,237,216,0.06)`,
         }}>
-          <Link href="/" className="font-script" style={{ fontSize: 26, color: GOLD, textDecoration: "none" }}>
-            La Parenthèse
-          </Link>
+          {/* Le nom seul ne distingue rien : plusieurs enseignes s'appellent
+              « La Parenthèse ». Le descriptif reprend ce que dit la devanture. */}
+          <div>
+            <Link href="/" className="font-script" style={{ fontSize: 26, color: GOLD, textDecoration: "none", display: "block", lineHeight: 1.1 }}>
+              La Parenthèse
+            </Link>
+            <p style={{
+              fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase",
+              color: TEXT.muted, marginTop: 6,
+            }}>
+              Restaurant africain · Anderlecht
+            </p>
+          </div>
 
           <nav style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
             {navLinks.map(l => (

@@ -46,10 +46,13 @@ export const PAYMENT = [
 export const RESTAURANT = {
   name:    "La Parenthèse",
   address: "Boulevard de la Révision 5, 1070 Anderlecht, Bruxelles",
+  // Le fixe (02 649 60 87) a été retiré à la demande du restaurant
+  // (24/08/2026) : c'est ce mobile qui doit figurer partout comme numéro
+  // appelable. Même numéro que le WhatsApp ci-dessous, formats différents.
   phone: {
-    raw:     "026496087",
-    display: "02 649 60 87",
-    href:    "tel:+3226496087",
+    raw:     "0465857417",
+    display: "0465 85 74 17",
+    href:    "tel:+32465857417",
   },
   whatsapp: {
     number:  "32465857417",

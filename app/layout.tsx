@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: "La Parenthèse — Restaurant Africain à Anderlecht, Bruxelles",
-    template: "%s | La Parenthèse",
+    template: "%s | La Parenthèse — Restaurant Africain",
   },
   description:
     "Restaurant camerounais et africain à Anderlecht (Bruxelles). Ndolé, Eru, Kontchap, poulet DG, brochettes, poisson braisé. Ouvert 7j/7 dès 12h (jusqu'à 2h le week-end). Réservation par téléphone ou WhatsApp.",
@@ -41,13 +41,14 @@ export const metadata: Metadata = {
     "restaurant camerounais Bruxelles",
     "Ndolé Bruxelles",
     "La Parenthèse Anderlecht",
+    "La Parenthèse restaurant africain",
   ],
   openGraph: {
     title: "La Parenthèse — Restaurant Africain à Anderlecht",
     description:
       "Cuisine camerounaise et africaine au cœur d'Anderlecht. Ndolé, Eru, grillades, ambiance chaleureuse. Réservations disponibles.",
     url: SITE_URL,
-    siteName: "La Parenthèse",
+    siteName: "La Parenthèse — Restaurant Africain",
     locale: "fr_BE",
     type: "website",
   },
@@ -74,11 +75,17 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
+  // `name` garde le nom exact de l'enseigne. La distinction d'avec les autres
+  // « La Parenthèse » passe par les deux champs suivants, prevus pour ca —
+  // pas par une repetition du mot-cle, que Google traite comme du bourrage.
   name: "La Parenthèse",
+  alternateName: "La Parenthèse Restaurant Africain",
+  disambiguatingDescription:
+    "Restaurant camerounais et africain situé Boulevard de la Révision 5 à Anderlecht, Bruxelles — à ne pas confondre avec les autres établissements nommés La Parenthèse.",
   description:
     "Restaurant camerounais et africain à Anderlecht, Bruxelles.",
   url: SITE_URL,
-  telephone: "+3226496087",
+  telephone: "+32465857417",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Boulevard de la Révision 5",
