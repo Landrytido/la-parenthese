@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import emailjs from "@emailjs/browser";
 import { CheckCircle, WhatsappLogo } from "@phosphor-icons/react";
 
 import { RESTAURANT, PAYMENT } from "@/lib/constants";
 import { reservationSlots } from "@/lib/hours";
 import { DARK, CREAM, GOLD, TEXT } from "@/lib/theme";
 
-const FORMSPREE_ID = process.env.NEXT_PUBLIC_FORMSPREE_ID ?? "";
+const EMAILJS_SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? "";
+const EMAILJS_TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? "";
+const EMAILJS_PUBLIC_KEY = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY ?? "";
 
 type FormData = {
   prenom: string; nom: string; email: string; tel: string;
@@ -32,17 +35,24 @@ export default function Reservation() {
   const { register, handleSubmit, reset, formState: { isSubmitting } } = useForm<FormData>();
 
   const onSubmit = async (data: FormData) => {
-    if (!FORMSPREE_ID) {
+    setError(false);
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
       await new Promise(r => setTimeout(r, 700));
       setSuccess(true); reset(); return;
     }
     try {
-      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify(data),
-      });
-      if (res.ok) { setSuccess(true); reset(); } else setError(true);
+      await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+        prenom: data.prenom,
+        nom: data.nom,
+        email: data.email,
+        tel: data.tel || "—",
+        date: data.date,
+        heure: data.heure,
+        personnes: data.personnes,
+        occasion: data.occasion || "Aucune en particulier",
+        message: data.message || "—",
+      }, { publicKey: EMAILJS_PUBLIC_KEY });
+      setSuccess(true); reset();
     } catch { setError(true); }
   };
 
