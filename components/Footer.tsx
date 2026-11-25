@@ -55,10 +55,11 @@ export default function Footer() {
             </p>
           </div>
 
-          <nav style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
+          <nav aria-label="Pied de page" style={{ display: "flex", columnGap: "1.5rem", flexWrap: "wrap" }}>
             {navLinks.map(l => (
               <a key={l.href} href={l.href} style={{
-                fontSize: 12, color: TEXT.muted, textDecoration: "none",
+                display: "inline-block", padding: "10px 0",
+                fontSize: 13, color: TEXT.muted, textDecoration: "none",
                 letterSpacing: "0.04em", transition: "color 0.2s ease",
               }}
                 onMouseEnter={e => ((e.target as HTMLElement).style.color = TEXT.primary)}
@@ -78,7 +79,10 @@ export default function Footer() {
               {SOCIAL.map(s => (
                 <a key={s.label} href={s.href} aria-label={s.label}
                   target="_blank" rel="noopener noreferrer"
-                  style={{ color: TEXT.muted, transition: "color 0.2s ease", display: "flex" }}
+                  style={{
+                    color: TEXT.muted, transition: "color 0.2s ease", display: "flex",
+                    width: 44, height: 44, alignItems: "center", justifyContent: "center",
+                  }}
                   onMouseEnter={e => ((e.currentTarget).style.color = GOLD)}
                   onMouseLeave={e => ((e.currentTarget).style.color = TEXT.muted)}
                 >

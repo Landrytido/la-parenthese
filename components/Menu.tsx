@@ -59,7 +59,7 @@ function DenseRow({ dish, hidePrice }: { dish: Dish; hidePrice?: boolean }) {
   );
 }
 
-function FullRow({ dish }: { dish: Dish }) {
+function FullRow({ dish, heading: Heading }: { dish: Dish; heading: "h3" | "h4" }) {
   return (
     <div style={{
       display: "flex", justifyContent: "space-between", alignItems: "flex-start",
@@ -68,9 +68,9 @@ function FullRow({ dish }: { dish: Dish }) {
     }}>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.55rem", marginBottom: "0.3rem", flexWrap: "wrap" }}>
-          <h4 className="font-serif" style={{ fontSize: 19, fontWeight: 500, color: CREAM, lineHeight: 1 }}>
+          <Heading className="font-serif" style={{ fontSize: 19, fontWeight: 500, color: CREAM, lineHeight: 1 }}>
             {dish.name.fr}
-          </h4>
+          </Heading>
           {dish.isSignature && <SignatureBadge />}
           {dish.isWeekendOnly && (
             <span style={{
@@ -158,7 +158,7 @@ export default function Menu() {
               onClick={() => setActiveTab(t.key)}
               aria-current={activeTab === t.key}
               style={{
-                padding: "10px 20px 13px", background: "none", border: "none",
+                padding: "15px 20px 16px", background: "none", border: "none",
                 cursor: "pointer", fontSize: 11, fontWeight: 500,
                 color: activeTab === t.key ? CREAM : TEXT.muted,
                 letterSpacing: "0.1em", textTransform: "uppercase",
@@ -216,7 +216,7 @@ export default function Menu() {
                     >
                       {tab.dense
                         ? <DenseRow dish={dish} hidePrice={tab.hidePrices} />
-                        : <FullRow dish={dish} />}
+                        : <FullRow dish={dish} heading={showHeadings ? "h4" : "h3"} />}
                     </motion.div>
                   ))}
                 </div>

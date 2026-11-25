@@ -85,7 +85,7 @@ export default function Navbar() {
 
           <button className="mobile-menu-btn" onClick={() => setOpen(true)}
             aria-label="Ouvrir le menu"
-            style={{ background: "none", border: "none", cursor: "pointer", color: CREAM, padding: 4 }}>
+            style={{ background: "none", border: "none", cursor: "pointer", color: CREAM, width: 44, height: 44, alignItems: "center", justifyContent: "center", marginRight: -10 }}>
             <List size={22} weight="light" />
           </button>
         </div>
@@ -93,14 +93,14 @@ export default function Navbar() {
 
       {/* Mobile overlay */}
       {open && (
-        <div style={{
+        <div role="dialog" aria-modal="true" aria-label="Menu" style={{
           position: "fixed", inset: 0, zIndex: 200, background: DARK,
           display: "flex", flexDirection: "column", padding: "1.5rem",
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3rem" }}>
             <span className="font-script" style={{ fontSize: 24, color: GOLD }}>La Parenthèse</span>
             <button onClick={() => setOpen(false)} aria-label="Fermer"
-              style={{ background: "none", border: "none", cursor: "pointer", color: CREAM }}>
+              style={{ background: "none", border: "none", cursor: "pointer", color: CREAM, width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", marginRight: -10 }}>
               <X size={22} weight="light" />
             </button>
           </div>

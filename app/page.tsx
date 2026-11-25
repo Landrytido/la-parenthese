@@ -8,6 +8,7 @@ import Gallery from "@/components/Gallery";
 import Quote from "@/components/Quote";
 import Reservation from "@/components/Reservation";
 import Footer from "@/components/Footer";
+import MobileActions from "@/components/MobileActions";
 
 export default function Home() {
   return (
@@ -24,6 +25,7 @@ export default function Home() {
         <Reservation />
       </main>
       <Footer />
+      <MobileActions />
     </>
   );
 }

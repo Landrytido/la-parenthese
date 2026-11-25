@@ -98,8 +98,8 @@ export default function HeroCarousel() {
 
       {/* Repères — donnent aussi l'accès clavier, la pile elle-même n'est pas focusable */}
       <div style={{
-        position: "absolute", left: 16, bottom: 16, zIndex: PHOTOS.length + 1,
-        display: "flex", gap: 6,
+        position: "absolute", left: 8, bottom: 2, zIndex: PHOTOS.length + 1,
+        display: "flex",
       }}>
         {PHOTOS.map((photo, i) => (
           <button
@@ -108,12 +108,17 @@ export default function HeroCarousel() {
             aria-label={`Photo ${i + 1} sur ${PHOTOS.length}`}
             aria-current={i === front}
             style={{
-              width: i === front ? 20 : 8, height: 3, padding: 0,
-              border: "none", cursor: "pointer", borderRadius: 2,
-              background: i === front ? GOLD : "rgba(245,237,216,0.35)",
-              transition: "width .4s cubic-bezier(0.16,1,0.3,1), background .3s ease",
+              minWidth: 32, height: 32, padding: "0 4px", background: "none",
+              border: "none", cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
             }}
-          />
+          >
+            <span aria-hidden="true" style={{
+              display: "block", width: i === front ? 24 : 10, height: 4, borderRadius: 2,
+              background: i === front ? GOLD : "rgba(245,237,216,0.55)",
+              transition: "width .4s cubic-bezier(0.16,1,0.3,1), background .3s ease",
+            }} />
+          </button>
         ))}
       </div>
     </div>
