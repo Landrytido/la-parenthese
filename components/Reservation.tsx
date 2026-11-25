@@ -36,9 +36,10 @@ export default function Reservation() {
 
   const onSubmit = async (data: FormData) => {
     setError(false);
+    // Jamais de succès sans envoi réel : sans configuration, le client doit
+    // savoir que sa demande n'est pas partie.
     if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
-      await new Promise(r => setTimeout(r, 700));
-      setSuccess(true); reset(); return;
+      setError(true); return;
     }
     try {
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
@@ -231,8 +232,8 @@ export default function Reservation() {
                 </div>
 
                 {error && (
-                  <p style={{ fontSize: 13, color: "#E87070" }}>
-                    Erreur. Contactez-nous par WhatsApp ou par téléphone.
+                  <p role="alert" style={{ fontSize: 13, color: "#E87070" }}>
+                    Votre demande n&apos;a pas été envoyée. Réservez par WhatsApp ou au {phone.display}.
                   </p>
                 )}
 
